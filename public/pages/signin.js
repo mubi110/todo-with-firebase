@@ -30,7 +30,7 @@ window.signin = function(){
       // Signed in 
       const user = userCredential.user;
         if(user){
-            location.replace('index.html')
+            location.replace('pages/index.html')
         }
     })
     .catch((error) => {

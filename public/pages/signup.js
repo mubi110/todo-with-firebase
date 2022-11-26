@@ -36,7 +36,7 @@ window.signup = function () {
         email: email.value,
         password: password.value
       });
-        location.replace('signin.html');
+        location.replace('../index.html');
       }
     })
     .catch((error) => {

@@ -101,5 +101,5 @@ window.edit = function (e, key) {
   }
 }
 window.logout = function () {
-  location.replace("signin.html");
+  location.replace("../index.html");
 }
