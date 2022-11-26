@@ -1,5 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-app.js";
 import { getDatabase, ref, set, child, get, push, update } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-database.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-auth.js";
 
 
 const firebaseConfig = {
@@ -16,10 +17,12 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase();
-
+const dbRef = ref(getDatabase());
+const auth = getAuth();
 
 var list = document.getElementById("data_item");
 // var todoArr = [];
+var usrID;
 
 window.todo = function () {
 
@@ -64,7 +67,26 @@ window.todo = function () {
     key: todoId,
     todoItem: input.value,
   }
-  set(ref(database, `todo/` + todoId), todoObj);
+
+  onAuthStateChanged(auth, function (user) {
+    if (user) {
+      get(child(dbRef, `users/${user.uid}`)).then((snapshot) => {
+        if (snapshot.exists()) {
+          usrID = user.uid;
+          var todoref = usrID + `/todo/` + todoId;
+          console.log(todoref)
+          set(ref(database, `users/` + usrID + `/todo/` + todoId), todoObj);
+        } else {
+          console.log("No data available");
+        }
+      }).catch((error) => {
+        console.error(error);
+      });
+    }
+
+  });
+
+
   input.value = ""
 
   // todoArr.push(li.firstChild.nodeValue);
@@ -90,7 +112,7 @@ window.edit = function (e, key) {
     todoItem: edit,
     key: updateKEy,
   };
-  
+
   console.log(updateTodo);
 
   if (edit == "") {

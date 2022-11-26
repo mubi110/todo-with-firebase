@@ -25,18 +25,19 @@ var password = document.getElementById("password");
 
 window.signup = function () {
 
+  var userObj = {
+    username: username.value,
+    contact: contact.value,
+    contact: contact.value,
+    email: email.value,
+    password: password.value
+  }
   createUserWithEmailAndPassword(auth, email.value, password.value)
     .then((userCredential) => {
       const user = userCredential.user;
       if (user) {
-      set(ref(db, `users/${user.uid}`), {
-        username: username.value,
-        contact: contact.value,
-        contact: contact.value,
-        email: email.value,
-        password: password.value
-      });
-        location.replace('../index.html');
+      set(ref(db, `users/${user.uid}`), userObj );
+        // location.replace('../index.html');
       }
     })
     .catch((error) => {
