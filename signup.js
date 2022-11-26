@@ -3,14 +3,13 @@ import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com
 import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.14.0/firebase-database.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDV29hn-uqGyw_SUtV2JqHvKyQUvI8KcBM",
-  authDomain: "quiz-app-ff5a2.firebaseapp.com",
-  databaseURL: "https://quiz-app-ff5a2-default-rtdb.firebaseio.com",
-  projectId: "quiz-app-ff5a2",
-  storageBucket: "quiz-app-ff5a2.appspot.com",
-  messagingSenderId: "992079548215",
-  appId: "1:992079548215:web:7788c2346bba1c3e2754b2",
-  measurementId: "G-H6DTVY1L15"
+  apiKey: "AIzaSyACCyuKXWljFh8tgvzb1jsqmp-M50Ek1bo",
+  authDomain: "todo-app-477fd.firebaseapp.com",
+  projectId: "todo-app-477fd",
+  storageBucket: "todo-app-477fd.appspot.com",
+  messagingSenderId: "416846068718",
+  appId: "1:416846068718:web:ec2b862637513f02bbecff",
+  measurementId: "G-DP3BQW6QG3"
 };
 
 // Initialize Firebase
@@ -25,18 +24,19 @@ var email = document.getElementById("email");
 var password = document.getElementById("password");
 
 window.signup = function () {
-  var userObj = {
-    username: username.value,
-    contact: contact.value,
-    email: email.value,
-    password: password.value,
-  }
+
   createUserWithEmailAndPassword(auth, email.value, password.value)
     .then((userCredential) => {
       const user = userCredential.user;
       if (user) {
-        set(ref(db, `user/`+contact.value), userObj);
-        // location.replace('signin.html');
+      set(ref(db, `users/${user.uid}`), {
+        username: username.value,
+        contact: contact.value,
+        contact: contact.value,
+        email: email.value,
+        password: password.value
+      });
+        location.replace('signin.html');
       }
     })
     .catch((error) => {
